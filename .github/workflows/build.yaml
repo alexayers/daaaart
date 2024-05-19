@@ -27,6 +27,9 @@ jobs:
         run: dart pub get
         working-directory: "packages/${{ matrix.package }}"    
 
+      - name: Activate WebDev
+        run: pub global activate webdev
+
       - name: Build project
         run: webdev build
         working-directory: "packages/${{ matrix.package }}"
