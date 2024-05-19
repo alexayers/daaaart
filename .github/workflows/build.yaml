@@ -1,0 +1,44 @@
+name: Build and Deploy to GCP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - test_bed
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.6"
+          cache: true
+
+      - name: Get dependencies
+        run: dart pub get
+        working-directory: "packages/${{ matrix.package }}"    
+
+      - name: Build project
+        run: webdev build
+        working-directory: "packages/${{ matrix.package }}"
+
+      - name: Authenticate with GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          project_id: 'daaaart'
+          service_account: 'daaaart-github-uploads@daaart.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/960953748171/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+
+      - name: Copy build output to GCP bucket
+        run: gsutil -m cp -r build/* gs://daaaart/${{ matrix.package }}
+        working-directory: "packages/${{ matrix.package }}"
