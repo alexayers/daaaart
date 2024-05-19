@@ -1,42 +1,70 @@
 name: PR Check
 
 on:
-    pull_request:
-        branches:
-        - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
   pr-check:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - teenytinytwodee
+          - test_bed
+        include:
+          - package: teenytinytwodee
+            has_tests: true
+          - package: test_bed
+            has_tests: true
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.6"
           cache: true
-      - run: dart pub get
-        working-directory: "packages/teenytinytwodee"
-      - run: dart pub get
-        working-directory: "packages/test_bed"
-      - run: dart format --set-exit-if-changed ./
-      - run: dart analyze
-      - run: |
-          if [ -d "test" ]; then
-            dart test --coverage=coverage
-            echo "has_coverage=true" >> $GITHUB_ENV
-          else
-            echo "has_coverage=false" >> $GITHUB_ENV
-          fi
+
+      - name: Get dependencies
+        run: dart pub get
+        working-directory: "packages/${{ matrix.package }}"
+
+      - name: Format code
+        run: dart format --set-exit-if-changed ./
+        working-directory: "packages/${{ matrix.package }}"
+
+      - name: Analyze code
+        run: dart analyze
+        working-directory: "packages/${{ matrix.package }}"
+
+      - name: Run tests and calculate coverage
+        if: ${{ matrix.has_tests }}
+        run: |
+          dart test --coverage=coverage
+          echo "has_coverage=true" >> $GITHUB_ENV
+        working-directory: "packages/${{ matrix.package }}"
+
+      - name: Set coverage false
+        if: ${{ !matrix.has_tests }}
+        run: echo "has_coverage=false" >> $GITHUB_ENV
+        working-directory: "packages/${{ matrix.package }}"
+
       - name: Install coverage tools
         if: env.has_coverage == 'true'
         run: dart pub global activate coverage
-      - name: format coverage
+
+      - name: Format coverage
         if: env.has_coverage == 'true'
         run: $HOME/.pub-cache/bin/format_coverage --lcov --in=coverage --out=coverage.lcov
+        working-directory: "packages/${{ matrix.package }}"
+
       - name: Upload coverage reports to Codecov
+        if: env.has_coverage == 'true'
         uses: codecov/codecov-action@v4.3.1
         with:
           files: coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
-       
-            
