@@ -41,6 +41,10 @@ jobs:
           project_id: 'daaaart'
           service_account: 'daaaart-github-uploads@daaart.iam.gserviceaccount.com'
 
-      - name: Copy build output to GCP bucket
-        run: gsutil -m cp -r build/* gs://daaaart/${{ matrix.package }}
-        working-directory: "packages/${{ matrix.package }}"
+      - name: 'Upload Build to GCP'
+        uses: 'google-github-actions/upload-cloud-storage@v2'
+        with:
+          path: 'build/${{ matrix.package }}'
+          destination: 'daaaart/${{ matrix.package }}'         
+
+
