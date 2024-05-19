@@ -1,0 +1,12 @@
+  
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        base: auto
+
+flag_management:
+  default_rules: 
+    carryforward: true
