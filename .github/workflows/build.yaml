@@ -44,7 +44,7 @@ jobs:
       - name: 'Upload Build to GCP'
         uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
-          path: '/build/${{ matrix.package }}'
+          path: '/home/runner/work/daaaart/build/${{ matrix.package }}'
           destination: 'daaaart/${{ matrix.package }}'         
 
 
