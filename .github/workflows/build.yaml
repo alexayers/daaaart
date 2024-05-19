@@ -40,7 +40,6 @@ jobs:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
           project_id: 'daaaart'
           service_account: 'daaaart-github-uploads@daaart.iam.gserviceaccount.com'
-          workload_identity_provider: 'projects/960953748171/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
 
       - name: Copy build output to GCP bucket
         run: gsutil -m cp -r build/* gs://daaaart/${{ matrix.package }}
