@@ -3,12 +3,12 @@ import 'dart:html';
 import 'package:teenytinytwodee/rendering/renderer.dart';
 
 class AnimatedSprite {
-  AnimatedSprite(
-    Map<String, List<String>> imageFiles,
-    this.width,
-    this.height,
-    this._currentAction,
-  ) {
+  AnimatedSprite({
+    required Map<String, List<String>> imageFiles,
+    required String currentAction,
+    int maxTicks = 8,
+  })  : _currentAction = currentAction,
+        _maxTicks = maxTicks {
     for (final String key in imageFiles.keys) {
       _frames[key] = [];
       for (final String image in imageFiles[key]!) {
@@ -21,12 +21,11 @@ class AnimatedSprite {
     _currentFrame = 0;
     _tick = 0;
   }
+
   int _tick = 0;
   num x = 0;
   num y = 0;
-  num width;
-  num height;
-  final int _maxTicks = 8;
+  final int _maxTicks;
   int _currentFrame = 0;
   String _currentAction;
   final Map<String, List<ImageElement>> _frames = {};
@@ -54,7 +53,13 @@ class AnimatedSprite {
 
   String get currentAction => _currentAction;
 
-  void render(num x, num y, int width, int height) {
+  void render({
+    required num x,
+    required num y,
+    required num width,
+    required num height,
+    bool flip = false,
+  }) {
     final ImageElement imageElement = _frames[_currentAction]![_currentFrame];
     _renderer.renderImage(
       image: imageElement,
@@ -62,6 +67,7 @@ class AnimatedSprite {
       y: y,
       width: width,
       height: height,
+      flip: flip,
     );
 
     _tick++;

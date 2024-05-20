@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import 'package:teenytinytwodee/logger/logger.dart';
+
 class AudioFile {
   AudioFile(String fileName, bool loop) {
     _audio = AudioElement(fileName)
@@ -26,7 +28,11 @@ class AudioFile {
       _audio.currentTime = 0; // Reset playback position
     }
 
-    _audio.play(); // No need to catch exceptions in Dart
+    try {
+      _audio.play();
+    } catch (e) {
+      logger(LogType.error, 'Error playing audio: $e');
+    }
   }
 
   void pause() {
