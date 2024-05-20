@@ -16,10 +16,13 @@ jobs:
         package:
           - teenytinytwodee
           - test_bed
+          - cyberpunk
         include:
           - package: teenytinytwodee
             has_tests: true
           - package: test_bed
+            has_tests: true
+          - package: cyberpunk
             has_tests: true
 
     steps:
