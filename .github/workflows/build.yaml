@@ -12,6 +12,7 @@ jobs:
       matrix:
         package:
           - test_bed
+          - fishing
 
     steps:
       - name: Checkout repository

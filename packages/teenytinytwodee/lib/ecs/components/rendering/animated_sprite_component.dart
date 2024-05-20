@@ -4,10 +4,11 @@ import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 class AnimatedSpriteComponent implements GameComponent {
   AnimatedSpriteComponent(
     Map<String, List<String>> imageFiles,
-    int width,
-    int height,
     String currentAction,
-  ) : animatedSprite = AnimatedSprite(imageFiles, width, height, currentAction);
+  ) : animatedSprite = AnimatedSprite(
+          imageFiles: imageFiles,
+          currentAction: currentAction,
+        );
 
   AnimatedSprite animatedSprite;
 

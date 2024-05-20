@@ -1,0 +1,19 @@
+name: cyberpunk
+description: A parralax scrolling experiment
+version: 1.0.0
+publish_to: 'none'
+repository: https://github.com/alexayers/daaaart.git
+
+environment:
+  sdk: ^3.3.4
+
+dependencies:
+  teenytinytwodee:
+    path: ../teenytinytwodee
+  uuid: ^4.4.0
+
+dev_dependencies:
+  build_runner: ^2.4.9
+  build_web_compilers: ^4.0.10
+  lints: ^4.0.0
+  test: ^1.25.5

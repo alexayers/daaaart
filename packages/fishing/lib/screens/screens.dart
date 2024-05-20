@@ -1,0 +1,1 @@
+enum Screens { mainScreen, cityScreen }

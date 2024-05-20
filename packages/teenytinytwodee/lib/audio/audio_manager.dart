@@ -1,5 +1,6 @@
 import 'package:teenytinytwodee/audio/audio_file.dart';
 import 'package:teenytinytwodee/gameEvent/game_event.dart';
+import 'package:teenytinytwodee/logger/logger.dart';
 
 class AudioManager {
   factory AudioManager() {
@@ -13,17 +14,27 @@ class AudioManager {
 
   void register(String name, String audioFile, [bool loop = false]) {
     _soundMap[name] = AudioFile(audioFile, loop);
+    logger(LogType.info, 'Registered sound: $name');
   }
 
   void play(String name) {
     if (_audioEnabled) {
-      _soundMap[name]?.play();
+      try {
+        _soundMap[name]?.play();
+      } catch (e) {
+        logger(LogType.error, 'Error playing sound: $name');
+      }
     }
   }
 
   void stop(String name) {
     if (_audioEnabled) {
-      _soundMap[name]?.stop();
+      try {
+        _soundMap[name]?.stop();
+        logger(LogType.info, 'ok stopped');
+      } catch (e) {
+        logger(LogType.error, 'Error stopping sound: $name');
+      }
     }
   }
 
