@@ -16,13 +16,13 @@ jobs:
         package:
           - teenytinytwodee
           - test_bed
-          - cyberpunk
+          - fishing
         include:
           - package: teenytinytwodee
             has_tests: true
           - package: test_bed
             has_tests: true
-          - package: cyberpunk
+          - package: fishing
             has_tests: true
 
     steps:
