@@ -29,7 +29,12 @@ class AudioManager {
 
   void stop(String name) {
     if (_audioEnabled) {
-      _soundMap[name]?.stop();
+      try {
+        _soundMap[name]?.stop();
+        logger(LogType.info, 'ok stopped');
+      } catch (e) {
+        logger(LogType.error, 'Error stopping sound: $name');
+      }
     }
   }
 

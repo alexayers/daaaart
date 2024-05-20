@@ -1,3 +1,4 @@
+import 'package:teenytinytwodee/audio/audio_manager.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 import 'package:teenytinytwodee/utils/math_utils.dart';
 
@@ -20,6 +21,7 @@ class Dog {
     currentAction: 'default',
   );
 
+  final _audioManager = AudioManager();
   num _x = 250;
   final num _y = 350;
   bool _sitting = false;
@@ -38,6 +40,7 @@ class Dog {
         _sitting = false;
         _lastSit = DateTime.now().millisecondsSinceEpoch;
         _dog.currentAction = 'default';
+        _audioManager.stop('dogSit');
       }
     } else {
       if (_left) {
@@ -57,6 +60,7 @@ class Dog {
         DateTime.now().millisecondsSinceEpoch - _lastSit > 30000) {
       _sitting = true;
       _dog.currentAction = 'sit';
+      _audioManager.play('dogSit');
     }
   }
 }

@@ -6,8 +6,8 @@ enum FontStyle { bold, italic, normal }
 
 class Font {
   Font(this.family, this.size, this.color);
-  String family = FontFamily.arial.toString();
-  int size;
-  FontStyle style = FontStyle.normal;
-  Color color = white;
+  final String family;
+  final int size;
+  final FontStyle style = FontStyle.normal;
+  final Color color;
 }

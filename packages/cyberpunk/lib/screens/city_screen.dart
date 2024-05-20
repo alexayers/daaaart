@@ -9,16 +9,28 @@ import 'package:teenytinytwodee/input/mouse.dart';
 import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
+import 'package:teenytinytwodee/rendering/font.dart';
 import 'package:teenytinytwodee/rendering/particle.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
 import 'package:teenytinytwodee/utils/color_utils.dart';
 import 'package:teenytinytwodee/utils/math_utils.dart';
+
+enum ParticleType {
+  rain,
+  fire,
+  fog,
+  smoke,
+}
 
 class CityScreen implements GameScreen {
   final renderer = Renderer();
   final List<Particle> _backgroundRainParticles = [];
   final List<Particle> _foregroundRainParticles = [];
   final List<Particle> _fogParticles = [];
+
+  final List<Particle> _fireParticles = [];
+  final List<Particle> _smokeParticles = [];
+
   final _hacker = Hacker();
   final _dog = Dog();
   final _robot = Robot();
@@ -26,7 +38,7 @@ class CityScreen implements GameScreen {
   final _audioManager = AudioManager();
 
   bool _trainLeft = true;
-  num _trainX = 900;
+  num _trainX = 16004;
   int _fishZone = 0;
   int _totalFishCaught = 0;
   int _lastFishCaught = 0;
@@ -35,18 +47,6 @@ class CityScreen implements GameScreen {
   int _currentFishZoneSpeed = 1;
   bool _fishZoneLeft = true;
   bool _fishOnTheLine = false;
-
-  final AnimatedSprite _birdFly = AnimatedSprite(
-    imageFiles: {
-      'default': [
-        'assets/images/birdFly1.png',
-        'assets/images/birdFly2.png',
-        'assets/images/birdFly3.png',
-        'assets/images/birdFly2.png',
-      ],
-    },
-    currentAction: 'default',
-  );
 
   final AnimatedSprite _lightPost = AnimatedSprite(
     imageFiles: {
@@ -85,6 +85,23 @@ class CityScreen implements GameScreen {
     currentAction: 'default',
   );
 
+  final AnimatedSprite _ad = AnimatedSprite(
+    maxTicks: 32,
+    imageFiles: {
+      'default': [
+        'assets/images/ad1.png',
+        'assets/images/ad2.png',
+        'assets/images/ad3.png',
+        'assets/images/ad4.png',
+        'assets/images/ad5.png',
+        'assets/images/ad6.png',
+        'assets/images/ad6.png',
+        'assets/images/ad6.png',
+      ],
+    },
+    currentAction: 'default',
+  );
+
   final AnimatedSprite _neonSign = AnimatedSprite(
     imageFiles: {
       'default': [
@@ -113,12 +130,33 @@ class CityScreen implements GameScreen {
   bool _waterRise = true;
   double _waterLevel = 0;
 
+  bool _showCaughtFish = false;
+  int _caughtFishTimer = 0;
+
   @override
   void init() {
     logger(LogType.info, 'init');
 
+    _audioManager.register('fishOnLine', 'assets/audio/fishOnLine.mp3');
     _audioManager.register('bulletTrain', 'assets/audio/bulletTrain.mp3');
     _audioManager.register('harbor', 'assets/audio/harbor.mp3', true);
+    _audioManager.register('rain', 'assets/audio/rain.mp3', true);
+    _audioManager.register('rain', 'assets/audio/background.mp3', true);
+    _audioManager.register('dogSit', 'assets/audio/dogSit.wav');
+    _audioManager.register('lost', 'assets/audio/lost.wav');
+    _audioManager.register('won', 'assets/audio/won.wav');
+
+    for (int i = 0; i < 1000; i++) {
+      _fireParticles.add(
+        _refreshFireParticle(),
+      );
+    }
+
+    for (int i = 0; i < 1000; i++) {
+      _smokeParticles.add(
+        _refreshSmokeParticle(),
+      );
+    }
 
     for (int i = 0; i < 1000; i++) {
       _fogParticles.add(
@@ -149,6 +187,15 @@ class CityScreen implements GameScreen {
             _totalFishCaught++;
             _fishOnTheLine = false;
             _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
+            _audioManager.stop('fishOnLine');
+            _audioManager.play('won');
+            _showCaughtFish = true;
+          } else {
+            logger(LogType.info, 'Missed');
+            _fishOnTheLine = false;
+            _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
+            _audioManager.stop('fishOnLine');
+            _audioManager.play('lost');
           }
       }
     }
@@ -162,6 +209,7 @@ class CityScreen implements GameScreen {
       32,
       28,
     )) {
+      _audioManager.stop('fishOnLine');
       return true;
     }
 
@@ -177,6 +225,7 @@ class CityScreen implements GameScreen {
       _fishZone = getRandomBetween(0, 160);
       _fishTimer = 0;
       _currentFishZoneSpeed = getRandomBetween(1, 20);
+      _audioManager.play('fishOnLine');
     }
   }
 
@@ -189,6 +238,8 @@ class CityScreen implements GameScreen {
   @override
   void onEnter() {
     _audioManager.play('harbor');
+    _audioManager.play('rain');
+    _audioManager.play('background');
   }
 
   @override
@@ -210,6 +261,46 @@ class CityScreen implements GameScreen {
         green: 100,
         blue: 100,
       ),
+    );
+  }
+
+  Particle _refreshSmokeParticle() {
+    return Particle(
+      x: getRandomBetween(605, 620),
+      y: getRandomBetween(348, 350),
+      width: getRandomBetween(4, 8),
+      height: getRandomBetween(5, 8),
+      alpha: 0.015,
+      lifeSpan: getRandomBetween(1, 100),
+      decayRate: getRandomBetween(1, 15) / 2,
+      velX: getRandomBetween(1, 10) / 200,
+      velY: (getRandomBetween(1, 10) / 20) * -1,
+      color: hexToColor(
+        getRandomArrayElement(['#000000', '#444444', '#333333']) as String,
+      ),
+      circle: true,
+    );
+  }
+
+  Particle _refreshFireParticle() {
+    return Particle(
+      x: getRandomBetween(605, 620),
+      y: getRandomBetween(347, 360),
+      width: getRandomBetween(2, 4),
+      height: getRandomBetween(2, 4),
+      alpha: 0.015,
+      lifeSpan: getRandomBetween(1, 150),
+      decayRate: getRandomBetween(1, 15) / 2,
+      velX: getRandomBetween(1, 10) / 200,
+      velY: (getRandomBetween(1, 10) / 200) * -1,
+      color: hexToColor(
+        getRandomArrayElement([
+          '#b06d03',
+          '#b05103',
+          '#c3971f',
+        ]) as String,
+      ),
+      circle: true,
     );
   }
 
@@ -273,13 +364,15 @@ class CityScreen implements GameScreen {
         color: hexToColor('#2d1b08'),
       );
 
+      if (_trainX + i == 504) {}
+
       if (_trainX < -16000) {
         _trainLeft = false;
-        //  _audioManager.play('bulletTrain');
+        _audioManager.play('bulletTrain');
       }
 
       if (_trainX > 16000) {
-        //   _audioManager.play('bulletTrain');
+        _audioManager.play('bulletTrain');
         _trainLeft = true;
       }
 
@@ -336,6 +429,26 @@ class CityScreen implements GameScreen {
         alpha: 0.02,
       ),
     );
+
+    // Way background building
+
+    renderer.rect(
+      x: 570,
+      y: 140,
+      width: 80,
+      height: 180,
+      color: hexToColor('#121224'),
+    );
+
+    for (int i = 0; i < 4; i++) {
+      renderer.rect(
+        x: 595,
+        y: 160 + (i * 40),
+        width: 25,
+        height: 25,
+        color: hexToColor('#00ffaa'),
+      );
+    }
 
     _train();
 
@@ -435,7 +548,7 @@ class CityScreen implements GameScreen {
       _renderer.rect(
         x: 302 + _fishZone,
         y: 252,
-        width: 24,
+        width: 30,
         height: 28,
         color: Color(
           red: 0,
@@ -469,6 +582,7 @@ class CityScreen implements GameScreen {
       if (_fishTimer > 120) {
         _fishOnTheLine = false;
         _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
+        _audioManager.stop('fishOnLine');
       }
 
       _fishTimer += 0.5 + (_currentFishZoneSpeed / 10);
@@ -477,6 +591,7 @@ class CityScreen implements GameScreen {
 
   void _renderParticle(
     List<Particle> particles,
+    ParticleType type,
   ) {
     for (int i = 0; i < particles.length; i++) {
       final particle = particles[i];
@@ -496,7 +611,16 @@ class CityScreen implements GameScreen {
       particle.lifeSpan -= particle.decayRate;
 
       if (particle.lifeSpan <= 0 || particle.y > 800) {
-        particles[i] = _refreshRainParticle();
+        switch (type) {
+          case ParticleType.rain:
+            particles[i] = _refreshRainParticle();
+          case ParticleType.fire:
+            particles[i] = _refreshFireParticle();
+          case ParticleType.fog:
+            particles[i] = _refreshFogParticle();
+          case ParticleType.smoke:
+            particles[i] = _refreshSmokeParticle();
+        }
       }
     }
   }
@@ -512,7 +636,7 @@ class CityScreen implements GameScreen {
       color: hexToColor('#1b1b37'),
     );
 
-    _renderParticle(_backgroundRainParticles);
+    _renderParticle(_backgroundRainParticles, ParticleType.rain);
     _backgroundBuildings();
 
     // sit building ledge
@@ -549,9 +673,12 @@ class CityScreen implements GameScreen {
 
     _water();
 
-    _renderParticle(_foregroundRainParticles);
-
+    _renderParticle(_fogParticles, ParticleType.fog);
+    _renderParticle(_fireParticles, ParticleType.fire);
+    _renderParticle(_foregroundRainParticles, ParticleType.rain);
     _renderFishOnTheLine();
+
+    _renderCaughtFish();
 
     // Letterbox Top
     renderer.rect(
@@ -569,6 +696,13 @@ class CityScreen implements GameScreen {
       width: 800,
       height: 100,
       color: hexToColor('#000000'),
+    );
+
+    renderer.print(
+      msg: 'Fish Caught: $_totalFishCaught',
+      font: Font('arial', 24, hexToColor('#ffffff')),
+      x: 50,
+      y: 50,
     );
   }
 
@@ -623,6 +757,34 @@ class CityScreen implements GameScreen {
     _seagull.render(x: 535, y: 360 - _waterLevel, width: 64, height: 96);
   }
 
+  void _renderCaughtFish() {
+    if (_showCaughtFish) {
+      _caughtFishTimer++;
+
+      renderer.renderImage(
+        image: ImageElement(src: 'assets/images/gotem.png'),
+        x: 260 - _caughtFishTimer,
+        y: 100 + _caughtFishTimer,
+        width: 256 + _caughtFishTimer,
+        height: 256 + _caughtFishTimer,
+      );
+
+      // fish
+      renderer.renderImage(
+        image: ImageElement(src: 'assets/images/fish.png'),
+        x: 260,
+        y: 235,
+        width: 256,
+        height: 256,
+      );
+
+      if (_caughtFishTimer > 50) {
+        _showCaughtFish = false;
+        _caughtFishTimer = 0;
+      }
+    }
+  }
+
   void _animatedDoodads() {
     renderer.rect(
       x: 48,
@@ -638,6 +800,34 @@ class CityScreen implements GameScreen {
       height: 100,
     );
 
-    _trash.render(x: 600, y: 350, width: 32, height: 80);
+    _ad.render(x: 170, y: 299, width: 64, height: 128);
+
+    _renderer.rect(
+      x: 173,
+      y: 295,
+      width: 58,
+      height: 120,
+      color: Color(
+        red: 247,
+        green: 66,
+        blue: 198,
+        alpha: getRandomBetween(1, 100) / 1000,
+      ),
+    );
+
+    _renderer.rect(
+      x: 180,
+      y: 295 + getRandomBetween(1, 50),
+      width: 40,
+      height: 40,
+      color: Color(
+        red: getRandomBetween(1, 255),
+        green: getRandomBetween(1, 255),
+        blue: getRandomBetween(1, 255),
+        alpha: getRandomBetween(1, 100) / 500,
+      ),
+    );
+
+    _trash.render(x: 600, y: 352, width: 32, height: 80);
   }
 }
