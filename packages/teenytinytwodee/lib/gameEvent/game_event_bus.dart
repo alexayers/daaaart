@@ -36,10 +36,7 @@ class GameEventBus {
         }
       }
     } else {
-      logger(
-        LogType.error,
-        'No listeners registered for channel -> $gameEvent.channel',
-      );
+      throw Exception('No listeners for channel ${gameEvent.channel}');
     }
   }
 }
