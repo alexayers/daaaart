@@ -1,13 +1,13 @@
 class TimerUtil {
-  TimerUtil(int waitTime) {
-    _waitTime = waitTime;
-  }
-  var _startTime = 0;
+  TimerUtil(int waitTime) : _waitTime = waitTime;
 
-  var _waitTime = 0;
+  int _startTime = 0;
+  final int _waitTime;
 
-  void start(int waitTime) {
-    _waitTime = _waitTime;
+  int get startTime => _startTime;
+  int get waitTime => _waitTime;
+
+  void start() {
     _startTime = DateTime.now().millisecondsSinceEpoch;
   }
 

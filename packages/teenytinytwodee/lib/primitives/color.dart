@@ -9,6 +9,27 @@ class Color {
   int blue;
   int green;
   num alpha;
+
+  @override
+  String toString() {
+    return 'Color(red: $red, green: $green, blue: $blue, alpha: $alpha)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Color &&
+        other.red == red &&
+        other.blue == blue &&
+        other.green == green &&
+        other.alpha == alpha;
+  }
+
+  @override
+  int get hashCode {
+    return red.hashCode ^ blue.hashCode ^ green.hashCode ^ alpha.hashCode;
+  }
 }
 
 Color black = Color(red: 0, green: 0, blue: 0, alpha: 1);
