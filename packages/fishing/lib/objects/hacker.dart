@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
+import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
 
 class Hacker {
   final AnimatedSprite hackerBody = AnimatedSprite(
@@ -67,51 +70,37 @@ class Hacker {
   final num _x = 50;
   final num _y = 330;
 
-  num hairBlowing = 0;
-  bool hairBlowingUp = true;
+  final _hairBounce = AnimationBounce(
+    increaseBy: 0.012,
+    until: 0.9,
+  );
+
+  final _typeBounce = AnimationBounce(
+    increaseBy: 0.02,
+    until: 1,
+  );
+
+  final _legBounce = AnimationBounce(
+    increaseBy: 0.01,
+    until: 1,
+  );
 
   int headTurnCounter = 0;
   bool headTurnRight = true;
 
-  num legBounce = 0;
-  bool legBounceUp = true;
-
-  num typeCounter = 0;
-  bool typeUp = true;
-
   void render() {
     hackerBody.render(x: _x, y: _y, width: 64, height: 128);
-
     hackerRightLeg.render(x: _x, y: _y, width: 64, height: 128);
+
+    final legBounce = _legBounce.bounce();
     hackerLeftLeg.render(x: _x, y: _y + legBounce, width: 64, height: 128);
 
-    if (legBounceUp) {
-      legBounce += 0.01;
-    } else {
-      legBounce -= 0.01;
-    }
-
-    if (legBounce >= 1) {
-      legBounceUp = false;
-    } else if (legBounce <= 0) {
-      legBounceUp = true;
-    }
-
+    final typeCounter = _typeBounce.bounce();
     hackerArms.render(x: _x, y: _y + typeCounter, width: 64, height: 128);
 
-    if (typeUp) {
-      typeCounter += 0.02;
-    } else {
-      typeCounter -= 0.02;
-    }
-
-    if (typeCounter >= 1) {
-      typeUp = false;
-    } else if (typeCounter <= 0) {
-      typeUp = true;
-    }
-
     laptop.render(x: _x, y: _y, width: 64, height: 128);
+
+    final hairBlowing = _hairBounce.bounce();
 
     hackerHead.render(
       x: _x - hairBlowing,
@@ -126,17 +115,5 @@ class Hacker {
       width: 64 - hairBlowing,
       height: 128 - hairBlowing,
     );
-
-    if (hairBlowingUp) {
-      hairBlowing += 0.012;
-    } else {
-      hairBlowing -= 0.012;
-    }
-
-    if (hairBlowing >= 0.9) {
-      hairBlowingUp = false;
-    } else if (hairBlowing <= 0) {
-      hairBlowingUp = true;
-    }
   }
 }
