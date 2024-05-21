@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
 
