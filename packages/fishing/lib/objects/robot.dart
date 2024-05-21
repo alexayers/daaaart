@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
+import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
 
 class Robot {
@@ -60,36 +61,30 @@ class Robot {
   num fishPull = 0;
   bool fishPushLeft = true;
 
-  num hairBlowing = 0;
-  bool hairBlowingUp = true;
+  final _hairBounce = AnimationBounce(
+    increaseBy: 0.012,
+    until: 0.9,
+  );
 
-  int headTurnCounter = 0;
-  bool headTurnRight = true;
+  final _typeBounce = AnimationBounce(
+    increaseBy: 0.02,
+    until: 1,
+  );
 
-  num legBounce = 0;
-  bool legBounceUp = true;
-
-  num typeCounter = 0;
-  bool typeUp = true;
+  final _legBounce = AnimationBounce(
+    increaseBy: 0.01,
+    until: 1,
+  );
 
   int blinkCounter = 0;
 
   void render(bool fishOnTheLine) {
     robotBody.render(x: _x, y: _y, width: 64, height: 128);
 
+    final legBounce = _legBounce.bounce();
     robotLegs.render(x: _x, y: _y + legBounce, width: 64, height: 128);
 
-    if (legBounceUp) {
-      legBounce += 0.01;
-    } else {
-      legBounce -= 0.01;
-    }
-
-    if (legBounce >= 1) {
-      legBounceUp = false;
-    } else if (legBounce <= 0) {
-      legBounceUp = true;
-    }
+    final typeCounter = _typeBounce.bounce();
 
     robotArms.render(
       x: _x + (fishPull / 50),
@@ -104,18 +99,6 @@ class Robot {
       height: 128,
     );
 
-    if (typeUp) {
-      typeCounter += 0.02;
-    } else {
-      typeCounter -= 0.02;
-    }
-
-    if (typeCounter >= 1) {
-      typeUp = false;
-    } else if (typeCounter <= 0) {
-      typeUp = true;
-    }
-
     blinkCounter++;
 
     if (blinkCounter >= 250 && blinkCounter <= 255) {
@@ -127,6 +110,8 @@ class Robot {
     } else {
       robotHead.currentAction = 'default';
     }
+
+    final hairBlowing = _hairBounce.bounce();
 
     if (fishOnTheLine) {
       _renderer.renderImage(
@@ -144,18 +129,6 @@ class Robot {
       width: 64 - hairBlowing + (fishPull / 75),
       height: 128 - hairBlowing + (fishPull / 75),
     );
-
-    if (hairBlowingUp) {
-      hairBlowing += 0.012;
-    } else {
-      hairBlowing -= 0.012;
-    }
-
-    if (hairBlowing >= 0.9) {
-      hairBlowingUp = false;
-    } else if (hairBlowing <= 0) {
-      hairBlowingUp = true;
-    }
 
     if (fishOnTheLine) {
       if (fishPushLeft) {

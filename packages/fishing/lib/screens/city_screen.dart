@@ -9,6 +9,7 @@ import 'package:teenytinytwodee/input/mouse.dart';
 import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
+import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
 import 'package:teenytinytwodee/rendering/font.dart';
 import 'package:teenytinytwodee/rendering/particle.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
@@ -30,6 +31,8 @@ class CityScreen implements GameScreen {
 
   final List<Particle> _fireParticles = [];
   final List<Particle> _smokeParticles = [];
+
+  final _particleRenderer = ParticleRenderer();
 
   final _hacker = Hacker();
   final _dog = Dog();
@@ -127,8 +130,10 @@ class CityScreen implements GameScreen {
     currentAction: 'default',
   );
 
-  bool _waterRise = true;
-  double _waterLevel = 0;
+  final _waterBounce = AnimationBounce(
+    increaseBy: 0.05,
+    until: 5,
+  );
 
   bool _showCaughtFish = false;
   int _caughtFishTimer = 0;
@@ -224,7 +229,7 @@ class CityScreen implements GameScreen {
       _fishOnTheLine = true;
       _fishZone = getRandomBetween(0, 160);
       _fishTimer = 0;
-      _currentFishZoneSpeed = getRandomBetween(1, 20);
+      _currentFishZoneSpeed = getRandomBetween(1, 6);
       _audioManager.play('fishOnLine');
     }
   }
@@ -589,42 +594,6 @@ class CityScreen implements GameScreen {
     }
   }
 
-  void _renderParticle(
-    List<Particle> particles,
-    ParticleType type,
-  ) {
-    for (int i = 0; i < particles.length; i++) {
-      final particle = particles[i];
-
-      renderer.rect(
-        x: particle.x,
-        y: particle.y,
-        width: particle.width,
-        height: particle.height,
-        color: particle.color,
-      );
-
-      particle.x += particle.velX;
-      particle.y += particle.velY;
-      particle.color.alpha -= particle.decayRate;
-
-      particle.lifeSpan -= particle.decayRate;
-
-      if (particle.lifeSpan <= 0 || particle.y > 800) {
-        switch (type) {
-          case ParticleType.rain:
-            particles[i] = _refreshRainParticle();
-          case ParticleType.fire:
-            particles[i] = _refreshFireParticle();
-          case ParticleType.fog:
-            particles[i] = _refreshFogParticle();
-          case ParticleType.smoke:
-            particles[i] = _refreshSmokeParticle();
-        }
-      }
-    }
-  }
-
   @override
   void renderLoop() {
     // Background color
@@ -636,7 +605,7 @@ class CityScreen implements GameScreen {
       color: hexToColor('#1b1b37'),
     );
 
-    _renderParticle(_backgroundRainParticles, ParticleType.rain);
+    _particleRenderer.render(_backgroundRainParticles, _refreshRainParticle);
     _backgroundBuildings();
 
     // sit building ledge
@@ -673,9 +642,9 @@ class CityScreen implements GameScreen {
 
     _water();
 
-    _renderParticle(_fogParticles, ParticleType.fog);
-    _renderParticle(_fireParticles, ParticleType.fire);
-    _renderParticle(_foregroundRainParticles, ParticleType.rain);
+    _particleRenderer.render(_fogParticles, _refreshFogParticle);
+    _particleRenderer.render(_fireParticles, _refreshFireParticle);
+    _particleRenderer.render(_foregroundRainParticles, _refreshRainParticle);
     _renderFishOnTheLine();
 
     _renderCaughtFish();
@@ -707,21 +676,11 @@ class CityScreen implements GameScreen {
   }
 
   void _water() {
-    if (_waterRise) {
-      _waterLevel += 0.05;
-    } else {
-      _waterLevel -= 0.05;
-    }
-
-    if (_waterLevel > 5) {
-      _waterRise = false;
-    } else if (_waterLevel < 0) {
-      _waterRise = true;
-    }
+    final waterLevel = _waterBounce.bounce();
 
     renderer.rect(
       x: 0,
-      y: 500 - _waterLevel,
+      y: 500 - waterLevel,
       width: 800,
       height: 100,
       color: hexToColor('#0a141e'),
@@ -729,7 +688,7 @@ class CityScreen implements GameScreen {
 
     renderer.rect(
       x: 0,
-      y: 500 - _waterLevel,
+      y: 500 - waterLevel,
       width: 800,
       height: 10,
       color: hexToColor('#102030'),
@@ -746,15 +705,15 @@ class CityScreen implements GameScreen {
 
       renderer.rect(
         x: 198 + i,
-        y: 500 - _waterLevel,
-        width: 32 - _waterLevel,
+        y: 500 - waterLevel,
+        width: 32 - waterLevel,
         height: 3,
         color: hexToColor('#3a4b5c'),
       );
     }
 
-    _buoy.render(x: 500, y: 360 - _waterLevel, width: 128, height: 256);
-    _seagull.render(x: 535, y: 360 - _waterLevel, width: 64, height: 96);
+    _buoy.render(x: 500, y: 360 - waterLevel, width: 128, height: 256);
+    _seagull.render(x: 535, y: 360 - waterLevel, width: 64, height: 96);
   }
 
   void _renderCaughtFish() {
