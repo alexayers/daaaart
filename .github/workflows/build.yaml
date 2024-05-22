@@ -13,6 +13,7 @@ jobs:
         package:
           - test_bed
           - fishing
+          - darkwave_dan
 
     steps:
       - name: Checkout repository

@@ -17,12 +17,9 @@ jobs:
           - teenytinytwodee
           - test_bed
           - fishing
+          - darkwave_dan
         include:
           - package: teenytinytwodee
-            has_tests: true
-          - package: test_bed
-            has_tests: true
-          - package: fishing
             has_tests: true
 
     steps:
