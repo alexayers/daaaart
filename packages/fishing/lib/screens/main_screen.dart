@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:cyberpunk/screens/screens.dart';
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/gameEvent/game_event_bus.dart';
 import 'package:teenytinytwodee/gameEvent/screen_change_event.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
@@ -59,4 +60,9 @@ class MainScreen implements GameScreen {
       font: Font('Arial', 500, Color(red: 255, green: 255, blue: 255)),
     );
   }
+
+  @override
+  // TODO: implement overLayScreens
+  Map<String, GameScreenOverlay> get overLayScreens =>
+      throw UnimplementedError();
 }

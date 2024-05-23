@@ -1,18 +1,22 @@
 import 'dart:html';
 
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
+import 'package:teenytinytwodee/gameEvent/game_event_bus.dart';
+import 'package:teenytinytwodee/gameEvent/open_overlay_event.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 import 'package:teenytinytwodee/rendering/parallax/parallax_layer.dart';
 import 'package:teenytinytwodee/rendering/parallax/parallax_renderer.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
 import 'package:teenytinytwodee/utils/color_utils.dart';
+import 'package:walking/screens/instruments/drum_machine_overlay.dart';
 
 class LaundryMatScreen implements GameScreen {
   final _renderer = Renderer();
   final _paralaxRenderer = ParallaxRenderer(3, [0.5, 1, 1.5]);
+  final _gameEventBus = GameEventBus();
   num _xPosition = 0;
 
   final AnimatedSprite _man = AnimatedSprite(
@@ -72,7 +76,9 @@ class LaundryMatScreen implements GameScreen {
   void mouseMove(double x, double y) {}
 
   @override
-  void onEnter() {}
+  void onEnter() {
+    _gameEventBus.publish(OpenOverlayScreenEvent('drumMachine'));
+  }
 
   @override
   void onExit() {}
@@ -133,5 +139,12 @@ class LaundryMatScreen implements GameScreen {
     _man.render(x: 250, y: 280, width: 64, height: 128);
 
     _wideScreenOverlay();
+  }
+
+  @override
+  Map<String, GameScreenOverlay> get overLayScreens {
+    return {
+      'drumMachine': DrumMachineOverlay(),
+    };
   }
 }

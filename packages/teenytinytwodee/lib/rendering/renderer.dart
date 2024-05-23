@@ -282,4 +282,8 @@ class Renderer {
   CanvasRenderingContext2D getContext() {
     return _ctx;
   }
+
+  Rectangle<num> getBoundingClientRect() {
+    return _canvas.getBoundingClientRect();
+  }
 }

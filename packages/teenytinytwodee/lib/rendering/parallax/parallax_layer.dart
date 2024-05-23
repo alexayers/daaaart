@@ -14,13 +14,17 @@ class ParallaxLayer {
         _height = height;
 
   final AnimatedSprite _animatedSprite;
-  num _x;
+  final num _x;
   final num _y;
   final num _width;
   final num _height;
 
   void render(double speed) {
     _animatedSprite.render(
-        x: _x - speed, y: _y, width: _width, height: _height);
+      x: _x - speed,
+      y: _y,
+      width: _width,
+      height: _height,
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:cyberpunk/objects/dog.dart';
 import 'package:cyberpunk/objects/hacker.dart';
 import 'package:cyberpunk/objects/robot.dart';
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/audio/audio_manager.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
 import 'package:teenytinytwodee/logger/logger.dart';
@@ -789,4 +790,9 @@ class CityScreen implements GameScreen {
 
     _trash.render(x: 600, y: 352, width: 32, height: 80);
   }
+
+  @override
+  // TODO: implement overLayScreens
+  Map<String, GameScreenOverlay> get overLayScreens =>
+      throw UnimplementedError();
 }

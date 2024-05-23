@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
 import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
@@ -79,4 +80,9 @@ class ExampleScreen implements GameScreen {
       ),
     );
   }
+
+  @override
+  // TODO: implement overLayScreens
+  Map<String, GameScreenOverlay> get overLayScreens =>
+      throw UnimplementedError();
 }
