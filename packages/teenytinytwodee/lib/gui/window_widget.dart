@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/utils/math_utils.dart';
 
 class WindowWidget extends Widget {

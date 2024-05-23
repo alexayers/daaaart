@@ -3,7 +3,6 @@ import 'dart:html';
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/gui/window_widget.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/utils/math_utils.dart';
 
 class WidgetManager {

@@ -1,4 +1,5 @@
 import 'package:teenytinytwodee/application/game_screen_overlay.dart';
+import 'package:teenytinytwodee/audio/wave_form_synthesis.dart';
 import 'package:teenytinytwodee/gui/button_widget.dart';
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/gui/window_widget.dart';
@@ -10,10 +11,40 @@ import 'package:teenytinytwodee/utils/color_utils.dart';
 
 class DrumMachineOverlay extends GameScreenOverlay {
   final _renderer = Renderer();
+  final _wavFormSynthesis = WavFormSynthesis();
 
   @override
   void init() {
-    // TODO: implement init
+    _wavFormSynthesis.register(
+      name: 'kick',
+      waveForm: WaveForm.sine,
+      frequency: 150,
+      duration: 0.5,
+    );
+
+    _wavFormSynthesis.register(
+      name: 'snare',
+      waveForm: WaveForm.sine,
+      frequency: 150,
+      duration: 0.2,
+      generateWhiteNoise: true,
+    );
+
+    _wavFormSynthesis.register(
+      name: 'hihat',
+      waveForm: WaveForm.sine,
+      frequency: 150,
+      duration: 0.1,
+      generateWhiteNoise: true,
+    );
+
+    _wavFormSynthesis.register(
+      name: 'cymbal',
+      waveForm: WaveForm.sine,
+      frequency: 150,
+      duration: 0.5,
+      generateWhiteNoise: true,
+    );
   }
 
   @override
@@ -95,7 +126,56 @@ class DrumMachineOverlay extends GameScreenOverlay {
         color: red,
         mouseOverColor: white,
         onClick: () {
-          logger(LogType.info, 'Drum Machine Button Clicked!');
+          logger(LogType.info, 'kick');
+          _wavFormSynthesis.play('kick');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      ButtonWidget(
+        id: 'drumMachine',
+        x: 100,
+        y: 10,
+        width: 24,
+        height: 24,
+        color: red,
+        mouseOverColor: white,
+        onClick: () {
+          logger(LogType.info, 'hihat');
+          _wavFormSynthesis.play('hihat');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      ButtonWidget(
+        id: 'drumMachine',
+        x: 150,
+        y: 10,
+        width: 24,
+        height: 24,
+        color: red,
+        mouseOverColor: white,
+        onClick: () {
+          logger(LogType.info, 'snare');
+          _wavFormSynthesis.play('snare');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      ButtonWidget(
+        id: 'drumMachine',
+        x: 200,
+        y: 10,
+        width: 24,
+        height: 24,
+        color: red,
+        mouseOverColor: white,
+        onClick: () {
+          logger(LogType.info, 'cymbal');
+          _wavFormSynthesis.play('cymbal');
         },
       ),
     );
