@@ -13,14 +13,16 @@ enum WaveForm {
 class SoundWave {
   SoundWave({
     required this.waveForm,
-    required this.frequency,
+    this.frequency,
     required this.audioContext,
     required this.duration,
+    required this.volume,
     this.bufferSource,
   });
   final WaveForm waveForm;
-  final num frequency;
+  final num? frequency;
   final num duration;
+  final num volume;
   final AudioContext audioContext;
   AudioBufferSourceNode? bufferSource;
 }
@@ -39,8 +41,9 @@ class WavFormSynthesis {
   void register({
     required String name,
     required WaveForm waveForm,
-    required num frequency,
+    num? frequency,
     required num duration,
+    required num volume,
     bool generateWhiteNoise = false,
   }) {
     final audioContext = AudioContext();
@@ -56,6 +59,7 @@ class WavFormSynthesis {
       waveForm: waveForm,
       frequency: frequency,
       duration: duration,
+      volume: volume,
       bufferSource: generateWhiteNoise ? bufferSource : null,
     );
 
@@ -107,10 +111,12 @@ class WavFormSynthesis {
     }
 
     final gainNode = soundWave.audioContext.createGain();
+
+    gainNode.gain!
+        .setValueAtTime(soundWave.volume, soundWave.audioContext.currentTime!);
     oscillator.connectNode(gainNode);
     gainNode.connectNode(soundWave.audioContext.destination!);
 
-    gainNode.gain!.setValueAtTime(1, soundWave.audioContext.currentTime!);
     gainNode.gain!.exponentialRampToValueAtTime(
       0.001,
       soundWave.audioContext.currentTime! + soundWave.duration,
@@ -126,8 +132,8 @@ class WavFormSynthesis {
     soundWave.bufferSource!.connectNode(gainNode);
     gainNode.connectNode(soundWave.audioContext.destination!);
 
-    // Gain envelope
-    gainNode.gain!.setValueAtTime(1, soundWave.audioContext.currentTime!);
+    gainNode.gain!
+        .setValueAtTime(soundWave.volume, soundWave.audioContext.currentTime!);
     gainNode.gain!.exponentialRampToValueAtTime(
       0.001,
       soundWave.audioContext.currentTime! + soundWave.duration,
