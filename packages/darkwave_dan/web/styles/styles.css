@@ -17,6 +17,6 @@ body {
 }
 
 @font-face {
-  font-family: 'led';
-  src: url('./assets/fonts/led.ttf');
+  font-family: 'vt323';
+  src: url('../assets/fonts/vt323.ttf');
 }

@@ -106,19 +106,16 @@ class Renderer {
 
   void print({
     required String msg,
-    required int x,
-    required int y,
+    required num x,
+    required num y,
     required Font font,
   }) {
-    _ctx.font = '${font.style} ${font.size}px ${font.family}';
+    _ctx.font = '${font.size}px ${font.family}';
     _ctx.fillStyle =
         rbgToHex(font.color.red, font.color.green, font.color.blue);
-
-    alpha = font.color.alpha;
-
+    _ctx.globalAlpha = font.color.alpha;
     _ctx.fillText(msg, x, y);
-
-    alpha = 1;
+    _ctx.globalAlpha = 1;
   }
 
   List<String> getLines(String text, int maxWidth) {

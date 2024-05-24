@@ -1,22 +1,30 @@
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/rendering/font.dart';
+import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
 
-class TextWidget extends Widget {
-  TextWidget({
+class DialWidget extends Widget {
+  DialWidget({
     required super.id,
     required super.x,
     required super.y,
     required super.width,
     required super.height,
-    required this.text,
-    required this.font,
+    required this.radius,
+    required this.currentValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.color,
+    required this.mouseOverColor,
   });
 
-  String text = '';
-  Font font;
   final _renderer = Renderer();
+  num currentValue = 50;
+  num minValue = 0;
+  num maxValue = 100;
+  num radius = 5;
+  Color color;
+  Color mouseOverColor;
 
   @override
   void mouseClick(num x, num y, MouseButton mouseButton) {
@@ -30,11 +38,11 @@ class TextWidget extends Widget {
 
   @override
   void render(num offsetX, num offsetY) {
-    _renderer.print(
-      msg: text,
+    _renderer.circle(
       x: x + offsetX,
       y: y + offsetY,
-      font: font,
+      radius: radius,
+      color: isMouseOver ? mouseOverColor : color,
     );
   }
 }

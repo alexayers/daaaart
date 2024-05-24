@@ -20,12 +20,14 @@ class SoundWave {
     this.bufferSource,
   });
   final WaveForm waveForm;
-  final num? frequency;
-  final num duration;
-  final num volume;
+  num? frequency;
+  num duration;
+  num volume;
   final AudioContext audioContext;
   AudioBufferSourceNode? bufferSource;
 }
+
+class SoundFilter {}
 
 class WavFormSynthesis {
   factory WavFormSynthesis() {
@@ -64,6 +66,23 @@ class WavFormSynthesis {
     );
 
     logger(LogType.info, 'Registered sound wave: $name');
+  }
+
+  void update({required String name, num? frequency, num? volume}) {
+    final soundWave = _soundWaves[name];
+
+    if (soundWave == null) {
+      logger(LogType.error, 'Sound wave not found: $name');
+      return;
+    }
+
+    if (frequency != null) {
+      soundWave.frequency = frequency;
+    }
+
+    if (volume != null) {
+      soundWave.volume = volume;
+    }
   }
 
   AudioBufferSourceNode _generateWhiteNoise(AudioContext audioContext) {
