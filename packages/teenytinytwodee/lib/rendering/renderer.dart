@@ -162,6 +162,7 @@ class Renderer {
 
     _ctx.fill();
     _ctx.closePath();
+
     alpha = 1;
   }
 

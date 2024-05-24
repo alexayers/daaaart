@@ -344,18 +344,6 @@ class DrumMachineOverlay extends GameScreenOverlay {
       ),
     );
 
-    windowWidget.addWidget(
-      TextWidget(
-        id: 'drumMachine',
-        x: 130,
-        y: 120,
-        width: 30,
-        height: 20,
-        text: 'Volume',
-        font: Font('vt323', 16, white),
-      ),
-    );
-
     int instrumentSelectorX = 10;
 
     windowWidget.addWidget(
@@ -376,18 +364,36 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
-      DialWidget(
+      TextButtonWidget(
         id: 'drumMachine',
-        x: instrumentSelectorX + 12,
-        y: 140,
+        x: instrumentSelectorX,
+        y: 100,
         width: 24,
         height: 24,
-        radius: 10,
-        currentValue: 50,
-        minValue: 0,
-        maxValue: 100,
         color: drkGray,
         mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Bass Drum');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Bass Drum');
+        },
       ),
     );
 
@@ -411,6 +417,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Snare');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Snare');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -425,6 +465,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
         mouseOverColor: ltGray,
       ),
     );
+
     instrumentSelectorX += 25;
 
     windowWidget.addWidget(
@@ -440,6 +481,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
         font: Font('vt323', 16, white),
         onClick: () {
           _currentInstrument = 'Low Tom';
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Low Tom');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Low Tom');
         },
       ),
     );
@@ -479,6 +554,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Mid Tom');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Mid Tom');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -508,6 +617,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
         font: Font('vt323', 16, white),
         onClick: () {
           _currentInstrument = 'High Tom';
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('High Tom');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('High Tom');
         },
       ),
     );
@@ -547,6 +690,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Rim Shot');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Rim Shot');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -576,6 +753,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
         font: Font('vt323', 16, white),
         onClick: () {
           _currentInstrument = 'Hand Clap';
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Hand Clap');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Hand Clap');
         },
       ),
     );
@@ -615,6 +826,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Cow Bell');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Cow Bell');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -644,6 +889,39 @@ class DrumMachineOverlay extends GameScreenOverlay {
         font: Font('vt323', 16, white),
         onClick: () {
           _currentInstrument = 'Cymbal';
+        },
+      ),
+    );
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Cymbal');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Cymbal');
         },
       ),
     );
@@ -683,6 +961,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Hi Hat');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Hi Hat');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -717,6 +1029,40 @@ class DrumMachineOverlay extends GameScreenOverlay {
     );
 
     windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 100,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '+',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.increaseVolume('Ride Cymbal');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
+      TextButtonWidget(
+        id: 'drumMachine',
+        x: instrumentSelectorX,
+        y: 130,
+        width: 24,
+        height: 24,
+        color: drkGray,
+        mouseOverColor: ltGray,
+        text: '-',
+        font: Font('vt323', 16, white),
+        onClick: () {
+          _wavFormSynthesis.decreaseVolume('Ride Cymbal');
+        },
+      ),
+    );
+
+    windowWidget.addWidget(
       DialWidget(
         id: 'drumMachine',
         x: instrumentSelectorX + 12,
@@ -732,142 +1078,6 @@ class DrumMachineOverlay extends GameScreenOverlay {
       ),
     );
     instrumentSelectorX += 25;
-
-/*
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'drumMachine',
-        x: 50,
-        y: 10,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('kick');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'drumMachine',
-        x: 100,
-        y: 10,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('hihat');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'drumMachine',
-        x: 150,
-        y: 10,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('snare');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'drumMachine',
-        x: 200,
-        y: 10,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('cymbal');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'rideCymbal',
-        x: 250,
-        y: 10,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('cymbal');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'tomTom',
-        x: 100,
-        y: 50,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('lowToms');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'tomTom',
-        x: 100,
-        y: 100,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('midToms');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'tomTom',
-        x: 100,
-        y: 150,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('highToms');
-        },
-      ),
-    );
-
-    windowWidget.addWidget(
-      ButtonWidget(
-        id: 'tomTom',
-        x: 0,
-        y: 150,
-        width: 24,
-        height: 24,
-        color: red,
-        mouseOverColor: white,
-        onClick: () {
-          _wavFormSynthesis.play('triangle');
-        },
-      ),
-    );*/
 
     widgets.add(windowWidget);
 

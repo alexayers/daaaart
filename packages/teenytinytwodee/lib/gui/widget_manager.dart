@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:teenytinytwodee/gui/dial_widget.dart';
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/gui/window_widget.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
@@ -28,13 +29,20 @@ class WidgetManager {
 
   void mouseClick(num x, num y, MouseButton mouseButton) {
     for (final Widget widget in _widgets) {
-      if (isPointWithinQuad(
-        Point(x, y),
-        widget.x,
-        widget.y,
-        widget.width,
-        widget.height,
-      )) {
+      if (widget is DialWidget &&
+              isPointWithinCircle(
+                point: Point(x, y),
+                cx: widget.x,
+                cy: widget.y,
+                radius: widget.radius,
+              ) ||
+          isPointWithinQuad(
+            point: Point(x, y),
+            x: widget.x,
+            y: widget.y,
+            width: widget.width,
+            height: widget.height,
+          )) {
         widget.mouseClick(x, y, mouseButton);
       }
     }
@@ -43,11 +51,11 @@ class WidgetManager {
   void mouseOver(num x, num y) {
     for (final Widget widget in _widgets) {
       if (isPointWithinQuad(
-        Point(x, y),
-        widget.x,
-        widget.y,
-        widget.width,
-        widget.height,
+        point: Point(x, y),
+        x: widget.x,
+        y: widget.y,
+        width: widget.width,
+        height: widget.height,
       )) {
         if (widget is WindowWidget) {
           widget.mouseOver(x, y);

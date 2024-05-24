@@ -209,11 +209,11 @@ class CityScreen implements GameScreen {
 
   bool _isFishCaught() {
     if (isPointWithinQuad(
-      Point(302 + _currentFishZone, 252),
-      302 + _fishZone,
-      252,
-      32,
-      28,
+      point: Point(302 + _currentFishZone, 252),
+      x: 302 + _fishZone,
+      y: 252,
+      width: 32,
+      height: 28,
     )) {
       _audioManager.stop('fishOnLine');
       return true;

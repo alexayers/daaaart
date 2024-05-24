@@ -85,6 +85,32 @@ class WavFormSynthesis {
     }
   }
 
+  void increaseVolume(String name) {
+    if (!_soundWaves.containsKey(name)) {
+      logger(LogType.error, 'Sound wave not found: $name');
+      return;
+    }
+
+    if (_soundWaves[name]!.volume >= 5) {
+      return;
+    }
+
+    _soundWaves[name]!.volume += 0.1;
+  }
+
+  void decreaseVolume(String name) {
+    if (!_soundWaves.containsKey(name)) {
+      logger(LogType.error, 'Sound wave not found: $name');
+      return;
+    }
+
+    if (_soundWaves[name]!.volume <= 0) {
+      return;
+    }
+
+    _soundWaves[name]!.volume -= 0.1;
+  }
+
   AudioBufferSourceNode _generateWhiteNoise(AudioContext audioContext) {
     late AudioBufferSourceNode bufferSource;
 

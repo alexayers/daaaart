@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:teenytinytwodee/gui/dial_widget.dart';
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
 import 'package:teenytinytwodee/utils/math_utils.dart';
@@ -37,13 +38,20 @@ class WindowWidget extends Widget {
   @override
   void mouseClick(num x, num y, MouseButton mouseButton) {
     for (final Widget widget in _widgets) {
-      if (isPointWithinQuad(
-        Point(x, y),
-        widget.x + super.x,
-        widget.y + super.y,
-        widget.width,
-        widget.height,
-      )) {
+      if (widget is DialWidget &&
+              isPointWithinCircle(
+                point: Point(x, y),
+                cx: widget.x + super.x,
+                cy: widget.y + super.y,
+                radius: widget.radius,
+              ) ||
+          isPointWithinQuad(
+            point: Point(x, y),
+            x: widget.x + super.x,
+            y: widget.y + super.y,
+            width: widget.width,
+            height: widget.height,
+          )) {
         widget.onClick?.call();
       }
     }
@@ -52,13 +60,20 @@ class WindowWidget extends Widget {
   @override
   void mouseOver(num x, num y) {
     for (final Widget widget in _widgets) {
-      if (isPointWithinQuad(
-        Point(x, y),
-        widget.x + super.x,
-        widget.y + super.y,
-        widget.width,
-        widget.height,
-      )) {
+      if (widget is DialWidget &&
+              isPointWithinCircle(
+                point: Point(x, y),
+                cx: widget.x + super.x,
+                cy: widget.y + super.y,
+                radius: widget.radius,
+              ) ||
+          isPointWithinQuad(
+            point: Point(x, y),
+            x: widget.x + super.x,
+            y: widget.y + super.y,
+            width: widget.width,
+            height: widget.height,
+          )) {
         widget.isMouseOver = true;
       } else {
         widget.isMouseOver = false;
