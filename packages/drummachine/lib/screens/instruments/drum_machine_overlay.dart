@@ -77,7 +77,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       frequency: 100,
       duration: 0.5,
-      volume: 0.05,
+      volume: 1.0,
     );
 
     _wavFormSynthesis.register(
@@ -93,7 +93,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       frequency: 200,
       duration: 0.5,
-      volume: 0.05,
+      volume: 0.5,
     );
 
     _wavFormSynthesis.register(
@@ -101,7 +101,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       duration: 0.2,
       generateWhiteNoise: true,
-      volume: 0.05,
+      volume: 0.5,
     );
 
     _wavFormSynthesis.register(
@@ -109,7 +109,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       duration: 0.1,
       generateWhiteNoise: true,
-      volume: 0.05,
+      volume: 0.5,
     );
 
     _wavFormSynthesis.register(
@@ -117,7 +117,7 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       duration: 0.5,
       generateWhiteNoise: true,
-      volume: 0.05,
+      volume: 0.5,
     );
 
     _wavFormSynthesis.register(
@@ -125,81 +125,101 @@ class DrumMachineOverlay extends GameScreenOverlay {
       waveForm: WaveForm.sine,
       duration: 1.0,
       generateWhiteNoise: true,
-      volume: 0.05,
+      volume: 0.5,
     );
   }
 
   @override
   void renderLoop() {
+    int offsetX = 20;
+
     _renderer.rect(
-      x: 250,
+      x: offsetX,
       y: 120,
       width: 325,
       height: 300,
       color: black,
     );
 
+    offsetX += 2;
+
     _renderer.rect(
-      x: 252,
+      x: offsetX,
       y: 122,
       width: 321,
       height: 296,
       color: hexToColor('#201904'),
     );
 
+    offsetX += 10;
+
     _renderer.rect(
-      x: 262,
+      x: offsetX,
       y: 132,
       width: 301,
       height: 276,
       color: black,
     );
 
+    offsetX += 8;
+
     _renderer.rect(
-      x: 270,
+      x: offsetX,
       y: 142,
       width: 100,
       height: 16,
       color: hexToColor('#202021'),
     );
 
+    offsetX = 50;
+
     _renderer.print(
       msg: _currentInstrument,
-      x: 280,
+      x: offsetX,
       y: 155,
       font: Font('vt323', 20, white),
     );
 
+    offsetX += 200;
+
     _renderer.rect(
-      x: 480,
+      x: offsetX,
       y: 142,
       width: 40,
       height: 16,
       color: hexToColor('#202021'),
     );
 
+    offsetX = 260;
+
     _renderer.print(
       msg: _currentBPM.toString(),
-      x: 487,
+      x: offsetX,
       y: 155,
       font: Font('vt323', 20, brightRed),
     );
 
+    offsetX += 30;
+
     _renderer.print(
       msg: 'BPM',
-      x: 520,
+      x: offsetX,
       y: 155,
       font: Font('vt323', 20, white),
     );
 
+    offsetX = 50;
+
     for (int i = 0; i < 16; i++) {
       if (_drumTrack[_currentInstrument]![i] == 1) {
-        _renderer.circle(x: 275 + i * 18, y: 350, radius: 4, color: brightRed);
+        _renderer.circle(
+            x: offsetX + i * 18, y: 350, radius: 4, color: brightRed);
       } else {
         if (i == _currentBar) {
-          _renderer.circle(x: 275 + i * 18, y: 350, radius: 4, color: red);
+          _renderer.circle(x: offsetX + i * 18, y: 350, radius: 4, color: red);
         } else {
-          _renderer.circle(x: 275 + i * 18, y: 350, radius: 4, color: drkGray);
+          _renderer.circle(
+              x: offsetX + i * 18, y: 350, radius: 4, color: drkGray);
         }
       }
     }
@@ -242,9 +262,11 @@ class DrumMachineOverlay extends GameScreenOverlay {
   List<Widget> getWidgets() {
     final List<Widget> widgets = [];
 
+    const offsetX = 30;
+
     final windowWidget = WindowWidget(
       id: 'drumMachine',
-      x: 262,
+      x: offsetX,
       y: 132,
       width: 300,
       height: 276,
