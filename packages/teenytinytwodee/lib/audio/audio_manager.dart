@@ -11,10 +11,11 @@ class AudioManager {
   static final AudioManager _instance = AudioManager._privateConstructor();
   final bool _audioEnabled = true;
   final Map<String, AudioFile> _soundMap = {};
+  final _logger = Logger();
 
   void register(String name, String audioFile, [bool loop = false]) {
     _soundMap[name] = AudioFile(audioFile, loop);
-    logger(LogType.info, 'Registered sound: $name');
+    _logger.info('Registered sound: $name');
   }
 
   void play(String name) {
@@ -22,7 +23,7 @@ class AudioManager {
       try {
         _soundMap[name]?.play();
       } catch (e) {
-        logger(LogType.error, 'Error playing sound: $name');
+        _logger.error('Error playing sound: $name');
       }
     }
   }
@@ -31,9 +32,8 @@ class AudioManager {
     if (_audioEnabled) {
       try {
         _soundMap[name]?.stop();
-        logger(LogType.info, 'ok stopped');
       } catch (e) {
-        logger(LogType.error, 'Error stopping sound: $name');
+        _logger.error('Error stopping sound: $name');
       }
     }
   }

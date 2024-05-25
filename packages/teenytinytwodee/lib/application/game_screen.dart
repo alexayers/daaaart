@@ -1,3 +1,4 @@
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
 
 abstract class GameScreen {
@@ -10,6 +11,8 @@ abstract class GameScreen {
   void logicLoop();
 
   void renderLoop();
+
+  Map<String, GameScreenOverlay> get overLayScreens;
 
   void keyboard(int keyCode);
 

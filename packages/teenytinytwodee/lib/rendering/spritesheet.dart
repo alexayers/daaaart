@@ -10,6 +10,7 @@ class SpriteSheetDefinition {
     this.spriteWidth,
     this.spriteHeight,
   );
+
   String spriteSheet;
   int spriteWidth;
   int spriteHeight;
@@ -46,7 +47,7 @@ class SpriteSheet {
       for (final String spriteName in spriteSheetDefinition.sprites) {
         spriteMap[spriteName] = Vector2(x, y);
 
-        logger(LogType.info, 'Loaded $spriteName at ${offsetX}x$offsetY');
+        _logger.info('Loaded $spriteName at ${offsetX}x$offsetY');
 
         x++;
 
@@ -61,6 +62,8 @@ class SpriteSheet {
       spriteSheetDefinition.perCol = spritesPerCol;
     });
   }
+
+  final _logger = Logger();
   late final SpriteSheetDefinition spriteSheetDefinition;
   final Map<String, Vector2> spriteMap = {};
   final ImageElement image = ImageElement();

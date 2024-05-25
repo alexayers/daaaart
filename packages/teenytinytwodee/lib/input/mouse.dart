@@ -1,1 +1,1 @@
-enum MouseButton { left, middle, right }
+enum MouseButton { left, middle, right, unknown }

@@ -30,13 +30,13 @@ Point rotateVector(num vx, num vy, num angle) {
   );
 }
 
-bool isPointWithinQuad(
-  Point point,
-  num x,
-  num y,
-  num width,
-  num height,
-) {
+bool isPointWithinQuad({
+  required Point point,
+  required num x,
+  required num y,
+  required num width,
+  required num height,
+}) {
   if (point.x >= x &&
       point.x <= x + width &&
       point.y >= y &&
@@ -45,6 +45,20 @@ bool isPointWithinQuad(
   } else {
     return false;
   }
+}
+
+bool isPointWithinCircle({
+  required Point point,
+  required num cx,
+  required num cy,
+  required num radius,
+}) {
+  final num dx = point.x - cx;
+  final num dy = point.y - cy;
+  final num distanceSquared = dx * dx + dy * dy;
+  final num radiusSquared = radius * radius;
+
+  return distanceSquared <= radiusSquared;
 }
 
 int getRandomInt(int max) {
@@ -61,7 +75,12 @@ dynamic getRandomArrayElement(List<dynamic> array) {
   return array[getRandomBetween(0, array.length - 1)];
 }
 
-num distanceBetweenTwoPixelCoords(num x1, num y1, num x2, num y2) {
+num distanceBetweenTwoPixelCoords({
+  required num x1,
+  required num y1,
+  required num x2,
+  required num y2,
+}) {
   return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 

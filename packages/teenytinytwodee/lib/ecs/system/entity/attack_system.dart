@@ -8,7 +8,6 @@ import 'package:teenytinytwodee/ecs/components/sound/use_sound_component.dart';
 import 'package:teenytinytwodee/ecs/game_entity.dart';
 import 'package:teenytinytwodee/ecs/game_entity_registry.dart';
 import 'package:teenytinytwodee/ecs/game_system.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/rendering/rayCaster/camera.dart';
 import 'package:teenytinytwodee/rendering/rayCaster/world_map.dart';
 
@@ -70,12 +69,6 @@ class AttackSystem implements GameSystem {
             holdingItem.getComponent('damage')! as DamageComponent;
 
         npc.addComponent(TakeDamageComponent(damageComponent.amount));
-
-        logger(
-          LogType.debug,
-          'You attacked ${npc.name} for ${damageComponent.amount} points of damage',
-        );
-
         break;
       }
     }

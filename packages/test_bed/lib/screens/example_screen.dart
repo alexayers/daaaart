@@ -1,8 +1,8 @@
 import 'dart:html';
 
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/font.dart';
 import 'package:teenytinytwodee/rendering/renderer.dart';
@@ -12,20 +12,10 @@ class ExampleScreen implements GameScreen {
   final renderer = Renderer();
 
   @override
-  void init() {
-    logger(LogType.info, 'init');
-  }
+  void init() {}
 
   @override
-  void keyboard(int keyCode) {
-    switch (keyCode) {
-      case KeyCode.A:
-        logger(LogType.info, 'A key pressed');
-
-      default:
-        logger(LogType.info, 'Not A');
-    }
-  }
+  void keyboard(int keyCode) {}
 
   @override
   void logicLoop() {}
@@ -79,4 +69,9 @@ class ExampleScreen implements GameScreen {
       ),
     );
   }
+
+  @override
+  // TODO: implement overLayScreens
+  Map<String, GameScreenOverlay> get overLayScreens =>
+      throw UnimplementedError();
 }
