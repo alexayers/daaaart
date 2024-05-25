@@ -16,7 +16,7 @@ import 'package:teenytinytwodee/rendering/renderer.dart';
 class TeenyTinyTwoDeeApp {
   TeenyTinyTwoDeeApp() {
     // ConfigurationManager.init(cfg);
-    logger(LogType.info, 'TeenyTinyTwoDeeApp - Dart V: 0.0.1');
+    _logger.info('TeenyTinyTwoDeeApp - Dart V: 0.0.1');
 
     window.onKeyDown.listen((KeyboardEvent event) {
       event.preventDefault();
@@ -80,6 +80,8 @@ class TeenyTinyTwoDeeApp {
     _gameEventBus.register('keyboardUpEvent', (GameEvent gameEvent) {});
   }
   // Duration for 60 FPS
+
+  final Logger _logger = Logger();
   final GameEventBus _gameEventBus = GameEventBus();
   Map<String, GameScreen> _gameScreens = {};
   final Map<String, GameScreenOverlay> _gameScreenOverlays = {};
@@ -106,12 +108,12 @@ class TeenyTinyTwoDeeApp {
         _gameScreenOverlays[key] = value;
         _widgetManagers[key] = WidgetManager();
         _widgetManagers[key]!.addAllWidgets(value.getWidgets());
-        logger(LogType.info, 'Initialized overlay screen: $key');
+        _logger.info('Initialized overlay screen: $key');
       });
     });
 
     _gameEventBus.register('__CHANGE_SCREEN__', (GameEvent gameEvent) {
-      logger(LogType.info, gameEvent.payload.toString());
+      _logger.info(gameEvent.payload.toString());
 
       if (_currentScreenName != null) {
         _currentGameScreen.onExit();
@@ -125,7 +127,7 @@ class TeenyTinyTwoDeeApp {
     });
 
     _gameEventBus.register('__CLOSE_OVERLAY_SCREEN__', (GameEvent gameEvent) {
-      logger(LogType.info, gameEvent.payload.toString());
+      _logger.info(gameEvent.payload.toString());
 
       if (_currentGameScreenOverlay != null) {
         _currentGameScreenOverlay!.onClose();
@@ -135,7 +137,7 @@ class TeenyTinyTwoDeeApp {
     });
 
     _gameEventBus.register('__OPEN_OVERLAY_SCREEN__', (GameEvent gameEvent) {
-      logger(LogType.info, gameEvent.payload.toString());
+      _logger.info(gameEvent.payload.toString());
 
       if (_currentGameScreenOverlay != null) {
         _currentGameScreenOverlay!.onClose();

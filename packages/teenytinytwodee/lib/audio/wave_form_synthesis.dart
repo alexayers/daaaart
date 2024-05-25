@@ -39,6 +39,7 @@ class WavFormSynthesis {
   static final WavFormSynthesis _instance =
       WavFormSynthesis._privateConstructor();
   final Map<String, SoundWave> _soundWaves = {};
+  final _logger = Logger();
 
   void register({
     required String name,
@@ -65,14 +66,14 @@ class WavFormSynthesis {
       bufferSource: generateWhiteNoise ? bufferSource : null,
     );
 
-    logger(LogType.info, 'Registered sound wave: $name');
+    _logger.info('Registered sound wave: $name');
   }
 
   void update({required String name, num? frequency, num? volume}) {
     final soundWave = _soundWaves[name];
 
     if (soundWave == null) {
-      logger(LogType.error, 'Sound wave not found: $name');
+      _logger.error('Sound wave not found: $name');
       return;
     }
 
@@ -87,7 +88,7 @@ class WavFormSynthesis {
 
   void increaseVolume(String name) {
     if (!_soundWaves.containsKey(name)) {
-      logger(LogType.error, 'Sound wave not found: $name');
+      _logger.error('Sound wave not found: $name');
       return;
     }
 
@@ -100,7 +101,7 @@ class WavFormSynthesis {
 
   void decreaseVolume(String name) {
     if (!_soundWaves.containsKey(name)) {
-      logger(LogType.error, 'Sound wave not found: $name');
+      _logger.error('Sound wave not found: $name');
       return;
     }
 
@@ -135,7 +136,7 @@ class WavFormSynthesis {
     final soundWave = _soundWaves[name];
 
     if (soundWave == null) {
-      logger(LogType.error, 'Sound wave not found: $name');
+      _logger.error('Sound wave not found: $name');
       return;
     }
 

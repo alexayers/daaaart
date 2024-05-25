@@ -1,3 +1,3 @@
-enum Screens { laundryMatScreen }
+enum Screens { baseScreen }
 
 enum OverlayScreens { drumMachineOverlay }

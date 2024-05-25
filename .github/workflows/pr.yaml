@@ -11,17 +11,38 @@ on:
 jobs:
   pr-check:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - teenytinytwodee
-          - test_bed
-          - fishing
-          - darkwave_dan
-        include:
-          - package: teenytinytwodee
-            has_tests: true
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Identify changed packages
+        id: changed-packages
+        run: |
+          echo "Changed packages:"
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'packages/')
+          echo $changed_files
+          packages=$(echo "$changed_files" | cut -d'/' -f2 | sort -u)
+          echo "::set-output name=packages::[$(echo $packages | sed 's/ /, /g')]"
+
+      - name: Set matrix for package testing
+        id: set-matrix
+        run: |
+          matrix="{\"include\": ["
+          for package in ${{ steps.changed-packages.outputs.packages }}
+          do
+            matrix+="{\"package\": \"$package\", \"has_tests\": true},"
+          done
+          matrix+="]}"
+          echo "::set-output name=matrix::$matrix"
+
+  test:
+    needs: pr-check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.pr-check.outputs.matrix)}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

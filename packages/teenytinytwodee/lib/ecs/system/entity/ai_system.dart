@@ -14,6 +14,7 @@ import 'package:teenytinytwodee/utils/math_utils.dart';
 
 class AiSystem implements GameSystem {
   final GameEntityRegistry _gameEntityRegistry = GameEntityRegistry();
+  final Logger _logger = Logger();
 
   @override
   void processEntity(GameEntity gameEntity) {
@@ -81,10 +82,10 @@ class AiSystem implements GameSystem {
           velocityComponent.velY = -0.02;
         }
       } catch (e) {
-        logger(LogType.error, e.toString());
+        _logger.error(e.toString());
       }
     } else {
-      logger(LogType.info, 'oh noes');
+      _logger.error('oh noes');
     }
   }
 

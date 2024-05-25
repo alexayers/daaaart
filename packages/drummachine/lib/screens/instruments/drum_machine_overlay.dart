@@ -3,7 +3,6 @@ import 'package:teenytinytwodee/audio/wave_form_synthesis.dart';
 import 'package:teenytinytwodee/gui/button_widget.dart';
 import 'package:teenytinytwodee/gui/dial_widget.dart';
 import 'package:teenytinytwodee/gui/text_button_widget.dart';
-import 'package:teenytinytwodee/gui/text_widget.dart';
 import 'package:teenytinytwodee/gui/widget.dart';
 import 'package:teenytinytwodee/gui/window_widget.dart';
 import 'package:teenytinytwodee/primitives/color.dart';

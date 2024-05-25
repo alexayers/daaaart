@@ -9,6 +9,7 @@ class AudioFile {
       ..load(); // Preload the audio
   }
   late AudioElement _audio;
+  final _logger = Logger();
 
   set volume(double volume) {
     _audio.volume = volume;
@@ -31,7 +32,7 @@ class AudioFile {
     try {
       _audio.play();
     } catch (e) {
-      logger(LogType.error, 'Error playing audio: $e');
+      _logger.error('Error playing audio: $e');
     }
   }
 

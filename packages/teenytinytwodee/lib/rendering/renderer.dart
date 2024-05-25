@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/primitives/rect.dart';
 import 'package:teenytinytwodee/rendering/font.dart';
@@ -14,8 +13,6 @@ class Renderer {
   Renderer._privateConstructor() {
     final container = DivElement();
     container.id = 'container';
-
-    logger(LogType.info, 'Resolution W: 800 H: 600');
 
     _canvas = CanvasElement(width: 800, height: 600);
     _canvas.id = 'game';

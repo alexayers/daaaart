@@ -10,6 +10,7 @@ import 'package:teenytinytwodee/logger/logger.dart';
 
 class DamageSystem implements GameSystem {
   AudioManager audioManager = AudioManager();
+  final Logger _logger = Logger();
 
   @override
   void processEntity(GameEntity gameEntity) {
@@ -31,7 +32,7 @@ class DamageSystem implements GameSystem {
             .getComponent('animatedSprite')! as AnimatedSpriteComponent;
         animatedSpriteComponent.animatedSprite.currentAction = 'dead';
 
-        logger(LogType.debug, '${gameEntity.name} is dead.');
+        _logger.debug('${gameEntity.name} is dead.');
       }
     } else {
       if (gameEntity.hasComponent('hurtSound')) {

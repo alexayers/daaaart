@@ -2,16 +2,33 @@
 
 enum LogType { info, debug, error }
 
-void logger(LogType logType, String msg) {
-  final date = DateTime.now();
-  final dateString = date.toIso8601String();
+class Logger {
+  factory Logger() {
+    return _instance;
+  }
 
-  switch (logType) {
-    case LogType.info:
-      print('$dateString - INFO - $msg');
-    case LogType.error:
-      print('$dateString - ERROR - $msg');
-    case LogType.debug:
-      print('$dateString - DEBUG - $msg');
+  Logger._internal();
+
+  static final Logger _instance = Logger._internal();
+
+  void info(String msg) {
+    final date = DateTime.now();
+    final dateString = date.toIso8601String();
+
+    print('$dateString - INFO - $msg');
+  }
+
+  void error(String msg) {
+    final date = DateTime.now();
+    final dateString = date.toIso8601String();
+
+    print('$dateString - ERROR - $msg');
+  }
+
+  void debug(String msg) {
+    final date = DateTime.now();
+    final dateString = date.toIso8601String();
+
+    print('$dateString - DEBUG - $msg');
   }
 }

@@ -7,7 +7,6 @@ import 'package:teenytinytwodee/application/game_screen.dart';
 import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/audio/audio_manager.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
@@ -141,8 +140,6 @@ class CityScreen implements GameScreen {
 
   @override
   void init() {
-    logger(LogType.info, 'init');
-
     _audioManager.register('fishOnLine', 'assets/audio/fishOnLine.mp3');
     _audioManager.register('bulletTrain', 'assets/audio/bulletTrain.mp3');
     _audioManager.register('harbor', 'assets/audio/harbor.mp3', true);
@@ -189,7 +186,6 @@ class CityScreen implements GameScreen {
       switch (keyCode) {
         case KeyCode.A:
           if (_isFishCaught()) {
-            logger(LogType.info, 'Got em');
             _totalFishCaught++;
             _fishOnTheLine = false;
             _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
@@ -197,7 +193,6 @@ class CityScreen implements GameScreen {
             _audioManager.play('won');
             _showCaughtFish = true;
           } else {
-            logger(LogType.info, 'Missed');
             _fishOnTheLine = false;
             _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
             _audioManager.stop('fishOnLine');
