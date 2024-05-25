@@ -4,45 +4,40 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'packages/**'
   push:
     branches:
-      - main    
+      - main
+    paths:
+      - 'packages/**'
 
 jobs:
-  pr-check:
+  setup-matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Identify changed packages
+      
+      - name: Get changed packages
         id: changed-packages
         run: |
-          echo "Changed packages:"
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'packages/')
-          echo $changed_files
-          packages=$(echo "$changed_files" | cut -d'/' -f2 | sort -u)
-          echo "::set-output name=packages::[$(echo $packages | sed 's/ /, /g')]"
-
-      - name: Set matrix for package testing
+          echo "CHANGED_PACKAGES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep 'packages/' | awk -F'/' '{print $2}' | uniq)" >> $GITHUB_ENV
+      
+      - name: Set matrix for changed packages
         id: set-matrix
         run: |
-          matrix="{\"include\": ["
-          for package in ${{ steps.changed-packages.outputs.packages }}
-          do
-            matrix+="{\"package\": \"$package\", \"has_tests\": true},"
-          done
-          matrix+="]}"
-          echo "::set-output name=matrix::$matrix"
+          echo "::set-output name=matrix::{\"include\": [$(echo $CHANGED_PACKAGES | jq -R -s -c 'split(" ") | map({package: ., has_tests: (if . == "teenytinytwodee" then true else false end)})')]}"
+        shell: bash
 
-  test:
-    needs: pr-check
+  pr-check:
+    needs: setup-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.pr-check.outputs.matrix)}}
+      matrix: ${{fromJson(needs.setup-matrix.outputs.matrix)}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
