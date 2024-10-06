@@ -8,6 +8,7 @@ class GameEventBus {
 
   GameEventBus._privateConstructor();
 
+  final _logger = Logger();
   static final GameEventBus _instance = GameEventBus._privateConstructor();
   final Map<String, List<void Function(GameEvent gameEvent)>> _channels = {};
 
@@ -16,7 +17,7 @@ class GameEventBus {
     void Function(GameEvent gameEvent) eventHandler,
   ) {
     if (!_channels.containsKey(channel)) {
-      logger(LogType.info, 'Creating new channel -> $channel');
+      _logger.info('Creating new channel -> $channel');
       _channels[channel] = [];
     }
 
@@ -32,7 +33,7 @@ class GameEventBus {
         try {
           listener(gameEvent);
         } catch (e) {
-          logger(LogType.error, e.toString());
+          _logger.error(e.toString());
         }
       }
     } else {

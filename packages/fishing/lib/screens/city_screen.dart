@@ -4,9 +4,9 @@ import 'package:cyberpunk/objects/dog.dart';
 import 'package:cyberpunk/objects/hacker.dart';
 import 'package:cyberpunk/objects/robot.dart';
 import 'package:teenytinytwodee/application/game_screen.dart';
+import 'package:teenytinytwodee/application/game_screen_overlay.dart';
 import 'package:teenytinytwodee/audio/audio_manager.dart';
 import 'package:teenytinytwodee/input/mouse.dart';
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/rendering/animated_sprite.dart';
 import 'package:teenytinytwodee/rendering/animation_bouncer.dart';
@@ -140,8 +140,6 @@ class CityScreen implements GameScreen {
 
   @override
   void init() {
-    logger(LogType.info, 'init');
-
     _audioManager.register('fishOnLine', 'assets/audio/fishOnLine.mp3');
     _audioManager.register('bulletTrain', 'assets/audio/bulletTrain.mp3');
     _audioManager.register('harbor', 'assets/audio/harbor.mp3', true);
@@ -188,7 +186,6 @@ class CityScreen implements GameScreen {
       switch (keyCode) {
         case KeyCode.A:
           if (_isFishCaught()) {
-            logger(LogType.info, 'Got em');
             _totalFishCaught++;
             _fishOnTheLine = false;
             _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
@@ -196,7 +193,6 @@ class CityScreen implements GameScreen {
             _audioManager.play('won');
             _showCaughtFish = true;
           } else {
-            logger(LogType.info, 'Missed');
             _fishOnTheLine = false;
             _lastFishCaught = DateTime.now().millisecondsSinceEpoch;
             _audioManager.stop('fishOnLine');
@@ -208,11 +204,11 @@ class CityScreen implements GameScreen {
 
   bool _isFishCaught() {
     if (isPointWithinQuad(
-      Point(302 + _currentFishZone, 252),
-      302 + _fishZone,
-      252,
-      32,
-      28,
+      point: Point(302 + _currentFishZone, 252),
+      x: 302 + _fishZone,
+      y: 252,
+      width: 32,
+      height: 28,
     )) {
       _audioManager.stop('fishOnLine');
       return true;
@@ -789,4 +785,9 @@ class CityScreen implements GameScreen {
 
     _trash.render(x: 600, y: 352, width: 32, height: 80);
   }
+
+  @override
+  // TODO: implement overLayScreens
+  Map<String, GameScreenOverlay> get overLayScreens =>
+      throw UnimplementedError();
 }

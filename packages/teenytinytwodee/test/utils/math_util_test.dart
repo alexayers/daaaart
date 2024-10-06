@@ -35,13 +35,25 @@ void main() {
   group('isPointWithinQuad', () {
     test('point inside quad', () {
       const point = Point(3, 4);
-      final isWithinQuad = isPointWithinQuad(point, 2, 3, 5, 6);
+      final isWithinQuad = isPointWithinQuad(
+        point: point,
+        x: 2,
+        y: 3,
+        width: 5,
+        height: 6,
+      );
       expect(isWithinQuad, isTrue);
     });
 
     test('point outside quad', () {
       const point = Point(70, 80);
-      final isWithinQuad = isPointWithinQuad(point, 2, 3, 5, 6);
+      final isWithinQuad = isPointWithinQuad(
+        point: point,
+        x: 2,
+        y: 3,
+        width: 5,
+        height: 6,
+      );
       expect(isWithinQuad, isFalse);
     });
   });
@@ -73,7 +85,12 @@ void main() {
 
   group('distanceBetweenTwoPixelCoords', () {
     test('distance between two points', () {
-      final distance = distanceBetweenTwoPixelCoords(3, 4, 6, 8);
+      final distance = distanceBetweenTwoPixelCoords(
+        x1: 3,
+        y1: 4,
+        x2: 6,
+        y2: 8,
+      );
       expect(distance, closeTo(5, 0.001));
     });
   });

@@ -32,6 +32,7 @@ class WorldMap {
   late final List<GameEntity> _gameMap = [];
   late int _worldWidth;
   late int _worldHeight;
+  final Logger _logger = Logger();
   final List<num> _doorOffsets = [];
   final List<DoorState> _doorStates = [];
   late WorldDefinition worldDefinition;
@@ -57,7 +58,7 @@ class WorldMap {
     }
 
     worldLoaded = true;
-    logger(LogType.info, 'The map has been loaded.');
+    _logger.info('The map has been loaded.');
   }
 
   void moveDoors() {

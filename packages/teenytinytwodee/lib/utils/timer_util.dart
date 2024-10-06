@@ -1,11 +1,8 @@
 class TimerUtil {
-  TimerUtil(int waitTime) : _waitTime = waitTime;
-
   int _startTime = 0;
-  final int _waitTime;
+  int waitTime = 0;
 
   int get startTime => _startTime;
-  int get waitTime => _waitTime;
 
   void start() {
     _startTime = DateTime.now().millisecondsSinceEpoch;
@@ -16,6 +13,6 @@ class TimerUtil {
   }
 
   bool hasTimePassed() {
-    return _startTime + _waitTime < DateTime.now().millisecondsSinceEpoch;
+    return _startTime + waitTime < DateTime.now().millisecondsSinceEpoch;
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 
-import 'package:teenytinytwodee/logger/logger.dart';
 import 'package:teenytinytwodee/primitives/color.dart';
 import 'package:teenytinytwodee/primitives/rect.dart';
 import 'package:teenytinytwodee/rendering/font.dart';
@@ -14,8 +13,6 @@ class Renderer {
   Renderer._privateConstructor() {
     final container = DivElement();
     container.id = 'container';
-
-    logger(LogType.info, 'Resolution W: 800 H: 600');
 
     _canvas = CanvasElement(width: 800, height: 600);
     _canvas.id = 'game';
@@ -106,19 +103,16 @@ class Renderer {
 
   void print({
     required String msg,
-    required int x,
-    required int y,
+    required num x,
+    required num y,
     required Font font,
   }) {
-    _ctx.font = '${font.style} ${font.size}px ${font.family}';
+    _ctx.font = '${font.size}px ${font.family}';
     _ctx.fillStyle =
         rbgToHex(font.color.red, font.color.green, font.color.blue);
-
-    alpha = font.color.alpha;
-
+    _ctx.globalAlpha = font.color.alpha;
     _ctx.fillText(msg, x, y);
-
-    alpha = 1;
+    _ctx.globalAlpha = 1;
   }
 
   List<String> getLines(String text, int maxWidth) {
@@ -165,6 +159,7 @@ class Renderer {
 
     _ctx.fill();
     _ctx.closePath();
+
     alpha = 1;
   }
 
@@ -281,5 +276,9 @@ class Renderer {
 
   CanvasRenderingContext2D getContext() {
     return _ctx;
+  }
+
+  Rectangle<num> getBoundingClientRect() {
+    return _canvas.getBoundingClientRect();
   }
 }

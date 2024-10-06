@@ -17,14 +17,11 @@ jobs:
           - teenytinytwodee
           - test_bed
           - fishing
+          - drummachine
         include:
           - package: teenytinytwodee
             has_tests: true
-          - package: test_bed
-            has_tests: true
-          - package: fishing
-            has_tests: true
-
+            
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
